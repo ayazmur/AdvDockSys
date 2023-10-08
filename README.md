@@ -1,4 +1,4 @@
-![ukraine](doc/ukraine.jpg)
+
 
 ![logo](doc/ads_logo.svg)
 
