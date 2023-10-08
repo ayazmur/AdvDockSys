@@ -57,18 +57,18 @@
 - [Styling](#styling)
   - [Disabling the Internal Style Sheet](#disabling-the-internal-style-sheet)
 
-## Configuration Flags
+## Флаги конфигурации
 
-The Advanced Docking System has a number of global configuration options to
-configure the design and the functionality of the docking system. Each
-configuration will be explained in detail in the following sections.
+Система Advanced Docking System имеет ряд глобальных опций конфигурации, позволяющих
+конфигурирования дизайна и функциональности стыковочной системы. Каждая опция
+подробно рассматривается в следующих разделах.
 
-### Setting Configuration Flags
+### Установка флагов конфигурации
 
-You must set the configuration flags before creating the dock manager
-instance otherwise the manager will not be created correctly and will
-crash upon being created. That means, setting the configurations flags
-is the first thing you must do, if you use the library.
+Перед созданием экземпляра док-менеджера необходимо установить флаги конфигурации
+иначе менеджер не будет создан корректно и произойдет
+произойдет аварийное завершение работы. Таким образом, установка конфигурационных флагов
+это первое, что необходимо сделать, если вы используете данную библиотеку.
 
 ```c++
 CDockManager::setConfigFlags(CDockManager::DefaultOpaqueConfig);
@@ -77,107 +77,106 @@ CDockManager::setConfigFlag(CDockManager::RetainTabSizeWhenCloseButtonHidden, tr
 d->DockManager = new CDockManager(this);
 ```
 
-If you set the configurations flags, you can set individual flags using the
-function `CDockManager::setConfigFlag` or you can set all flags using
-the function `CDockManager::setConfigFlags`. Instead of settings all
-flags individually, it is better to pick a predefined set of configuration
-flags and then modify individual flags. The following predefined
-configurations are available
+При установке флагов конфигурации можно установить отдельные флаги с помощью функции `CDockManager::setConfigFlag
+функцию `CDockManager::setConfigFlag` или установить все флаги с помощью функции `CDockManager::setConfigFlags`.
+функцию `CDockManager::setConfigFlags`. Вместо того чтобы устанавливать все
+флагов по отдельности, лучше выбрать предопределенный набор конфигурационных
+флагов, а затем изменять отдельные флаги. Ниже приведены предопределенные
+конфигурации
 
-- `DefaultNonOpaqueConfig` - uses non opaque splitter resizing and non opaque docking
-- `DefaultOpaqueConfig` - uses opaque splitter resizing and opaque docking
+- `DefaultNonOpaqueConfig` - использует непрозрачный сплиттер для изменения размеров и непрозрачную стыковку
+- `DefaultOpaqueConfig` - используется изменение размеров непрозрачного сплиттера и непрозрачная стыковка
 
-Pick one of those predefined configurations and then modify the following
-configurations flags to adjust the docking system to your needs.
+Выберите одну из этих предопределенных конфигураций, а затем измените следующие
+флаги конфигурации, чтобы настроить стыковочную систему под свои нужды.
 
 ### `ActiveTabHasCloseButton`
 
-If this flag is set (default configuration), the active tab in a tab area has
-a close button.
+Если этот флаг установлен (конфигурация по умолчанию), то активная вкладка в области вкладок имеет
+кнопку закрытия.
 
 ![ActiveTabHasCloseButton true](cfg_flag_ActiveTabHasCloseButton_true.png)
 
-If this flag is cleared, the active tab has no close button. You can combine
-this with the flag `DockAreaCloseButtonClosesTab` to use the close button
-of the dock are to close the single tabs.
+Если этот флаг снят, то активная вкладка не имеет кнопки закрытия. Вы можете комбинировать
+этот флаг с флагом `DockAreaCloseButtonClosesTab`, чтобы использовать кнопку закрытия
+док-зоны для закрытия отдельных вкладок.
 
 ![ActiveTabHasCloseButton true](cfg_flag_ActiveTabHasCloseButton_false.png)
 
 ### `DockAreaHasCloseButton`
 
-If the flag is set (default configuration) each dock area has a close button.
+Если флаг установлен (конфигурация по умолчанию), то каждая док-зона имеет кнопку закрытия.
 
 ![DockAreaHasCloseButton true](cfg_flag_DockAreaHasCloseButton_true.png)
 
-If this flag is cleared, dock areas do not have a close button.
+Если этот флаг сброшен, то док-зоны не имеют кнопки закрытия.
 
 ![DockAreaHasCloseButton true](cfg_flag_DockAreaHasCloseButton_false.png)
 
-### `DockAreaCloseButtonClosesTab`
+### `DockAreaCloseButtonClosesTab`.
 
-If the flag is set, the dock area close button closes the active tab,
-if not set, it closes the complete dock area (default).
+Если флаг установлен, кнопка закрытия док-зоны закрывает активную вкладку,
+если флаг не установлен, то закрывается вся док-область (по умолчанию).
 
 ### `OpaqueSplitterResize`
 
-The advanced docking system uses standard `QSplitters` as resize separators and thus supports opaque and non-opaque resizing functionality of `QSplitter`. In some rare cases, for very complex widgets or on slow machines resizing via separator on the fly may cause flicking and glaring of rendered content inside a widget. This global dock manager flag configures the resizing behaviour of the splitters. If this flag is set, then widgets are resized dynamically (opaquely) while interactively moving the splitters. If you select the predefined configuration `DefaultOpaqueConfig`, then this is the configured behaviour.
+Усовершенствованная система докинга использует стандартные `QSplitters` в качестве разделителей размеров и, таким образом, поддерживает непрозрачные и непрозрачные функции изменения размеров `QSplitter`. В некоторых редких случаях, для очень сложных виджетов или на медленных машинах, изменение размера через разделитель на лету может привести к мерцанию и бликованию отрисованного содержимого внутри виджета. Этот глобальный флаг док-менеджера настраивает поведение разделителей при изменении размера. Если флаг установлен, то при интерактивном перемещении разделителей размеры виджетов будут изменяться динамически (непрозрачно). Если выбрать предопределенную конфигурацию `DefaultOpaqueConfig`, то именно такое поведение будет задано.
 
 ![Opaque resizing](opaque_resizing.gif)
 
-If this flag is cleared, the widget resizing is deferred until the mouse button is released - this is some kind of lazy resizing separator. If you select the predefined
-configuration `DefaultNonOpaqueConfig`, then this is the configured behaviour.
+Если этот флаг сброшен, то изменение размеров виджета откладывается до отпускания кнопки мыши - это своего рода разделитель ленивого изменения размеров. Если выбрать предопределенную
+конфигурацию `DefaultNonOpaqueConfig`, то это и есть настроенное поведение.
 
 ![Non-opaque resizing](non_opaque_resizing.gif)
 
 ### `XmlAutoFormattingEnabled`
 
-If enabled, the XML writer automatically adds line-breaks and indentation to
-empty sections between elements (ignorable whitespace). This is used, when
-the current state or perspective is saved. It is disabled by default.
+Если эта опция включена, то программа написания XML автоматически добавляет переносы строк и отступы к
+пустые участки между элементами (ignorable whitespace). Это используется, когда
+сохранении текущего состояния или перспективы. По умолчанию эта функция отключена.
 
 ### `XmlCompressionEnabled`
 
-If enabled, the XML output will be compressed and is not human readable anymore.
-This ie enabled by default to minimize the size of the saved data.
-
+Если эта опция включена, то XML-вывод будет сжат и перестанет быть человекочитаемым.
+Эта опция включена по умолчанию, чтобы минимизировать размер сохраняемых данных.
 ### `TabCloseButtonIsToolButton`
 
-If enabled the tab close buttons will be `QToolButtons` instead of `QPushButtons` - 
-disabled by default. Normally the default configuration should be ok but if your
-application requires `QToolButtons` instead of `QPushButtons` for styling reasons
-or for any other reasons, then you can enable this flag.
+При включении кнопки закрытия вкладок будут `QToolButtons`, а не `QPushButtons` - по умолчанию отключены. 
+отключенные по умолчанию. Обычно конфигурация по умолчанию не вызывает затруднений, но если в вашем
+приложение требует `QToolButtons` вместо `QPushButtons` по соображениям стилистики
+или по каким-либо другим причинам, то вы можете включить этот флаг.
 
 ### `AllTabsHaveCloseButton`
 
-If this flag is set, then all tabs that are closable show a close button. The
-advantage of this setting is that the size of the tabs does not change and the
-user can immediately close each tab. The disadvantage is that all tabs take up
-more space.
+Если этот флаг установлен, то на всех закрываемых вкладках отображается кнопка закрытия. Преимущество
+Преимущество этой настройки заключается в том, что размер вкладок не изменяется, и пользователь может сразу же закрыть каждую вкладку.
+пользователь может сразу закрыть каждую вкладку. Недостатком является то, что все вкладки занимают
+больше места.
 
 ![AllTabsHaveCloseButton true](cfg_flag_AllTabsHaveCloseButton_true.png)
 
-If this flas is cleared, then only the active tab has a close button (default)
-and therefore the tabs need less space.
+Если этот флаг сброшен, то кнопка закрытия будет только у активной вкладки (по умолчанию)
+и, следовательно, вкладкам требуется меньше места.
 
 ![AllTabsHaveCloseButton false](cfg_flag_ActiveTabHasCloseButton_true.png)
 
 ### `RetainTabSizeWhenCloseButtonHidden`
 
-If this flag is set, the space for the close button is reserved even if the
-close button is not visible. This flag is disabled by default. If this flag
-is disabled, the tab size dynamically changes if the close button is
-visible / hidden in a tab. If this flag is enabled, the tab size always remains
-constant, that means, if enabled, the tabs need more space.
+Если этот флаг установлен, то место для кнопки закрытия будет зарезервировано, даже если кнопка не видна.
+кнопка закрытия не видна. По умолчанию этот флаг отключен. Если этот флаг
+отключен, размер вкладки динамически изменяется, если кнопка закрытия
+видимой / скрытой на вкладке. Если этот флаг включен, то размер вкладки всегда остается
+постоянным, то есть, если флаг включен, вкладкам требуется больше места.
 
 ![AllTabsHaveCloseButton false](cfg_flag_RetainTabSizeWhenCloseButtonHidden_true.png)
 
 ### `DragPreviewIsDynamic`
 
-If non-opaque undocking is enabled, this flag defines the behavior of the drag 
-preview window. If this flag is enabled, then it will give the user the
-impression, that the floating drag preview is dynamically adjusted to the drop
-area. In order to give the perfect impression, you should disable the flags
-`DragPreviewShowsContentPixmap` and `DragPreviewHasWindowFrame`.
+Если включена непрозрачная разблокировка, то этот флаг определяет поведение окна предварительного просмотра при перетаскивании. 
+окна предварительного просмотра. Если этот флаг установлен, то у пользователя будет создаваться впечатление, что
+впечатление, что плавающее окно предварительного просмотра перетаскивания динамически подстраивается под область падения
+области. Для того чтобы создать правильное впечатление, следует отключить флаги
+`DragPreviewShowsContentPixmap` и `DragPreviewHasWindowFrame`.
 
 ```c++
 CDockManager::setConfigFlag(CDockManager::DragPreviewIsDynamic, true);
@@ -189,176 +188,175 @@ CDockManager::setConfigFlag(CDockManager::DragPreviewHasWindowFrame, false);
 
 ### `DragPreviewShowsContentPixmap`
 
-If non-opaque undocking is enabled, the created drag preview window shows a 
-copy of the content of the dock widget / dock are that is dragged, if this
-flag is enabled (default).
+Если включена непрозрачная отстыковка, то в созданном окне предварительного просмотра перетаскивания отображается 
+копию содержимого перетаскиваемого док-виджета/дока, если этот флаг включен (по умолчанию).
+флаг включен (по умолчанию).
 
 ![DragPreviewShowsContentPixmap true](cfg_flag_DragPreviewShowsContentPixmap_true.png)
 
-If this flag is disabled, the drag preview is only a transparent `QRubberBand`
-like window without any content.
+Если этот флаг отключен, то предварительный просмотр при перетаскивании будет представлять собой только прозрачное `QRubberBand`
+как окно без какого-либо содержимого.
 
 ![DragPreviewShowsContentPixmap true](cfg_flag_DragPreviewShowsContentPixmap_false.png)
 
 ### `DragPreviewHasWindowFrame`
 
-If non-opaque undocking is enabled, then this flag configures if the drag 
-preview is frameless (default) or looks like a real window. If it is enabled,
-then the drag preview is a transparent window with a system window frame.
+Если включена непрозрачная разблокировка, то этот флаг определяет, будет ли предварительный просмотр при перетаскивании без рамки (по умолчанию) или будет выглядеть как реальное окно. 
+без рамки (по умолчанию) или выглядеть как реальное окно. Если флаг включен,
+то предварительный просмотр при перетаскивании будет представлять собой прозрачное окно с рамкой системного окна.
 
 ![DragPreviewHasWindowFrame true](cfg_flag_DragPreviewHasWindowFrame_true.png)
 
 ### `AlwaysShowTabs`
 
-If this option is enabled, the tab of a dock widget is always displayed - even
-if it is the only visible dock widget in a floating widget. In the image below
-on the left side, the flag is disabled (default) and on the right side it is
-enabled.
+Если эта опция включена, то вкладка док-виджета отображается всегда - даже если это единственный видимый док-виджет в плавающем виджете.
+если он является единственным видимым виджетом док-станции в плавающем виджете. На рисунке ниже
+слева флаг отключен (по умолчанию), а справа - включен
+включен.
 
 ![AlwaysShowTabs false true](cfg_flag_AlwaysShowTabs_false_true.png)
 
 ### `DockAreaHasUndockButton`
 
-If the flag is set (default) each dock area has an undock button (right
-image). If the flag is cleared, a dock area has no undock button (left image)
+Если флаг установлен (по умолчанию), то каждая док-зона имеет кнопку отстыковки (правое
+изображение). Если флаг сброшен, то док-зона не имеет кнопки отстыковки (левое изображение)
 
 ![DockAreaHasUndockButton false true](cfg_flag_DockAreaHasUndockButton_false_true.png)
 
 ### `DockAreaHasTabsMenuButton`
 
-Tabs are a good way to quickly switch between dockwidgets in a dockarea.
-However, if the number of dockwidgets in a dockarea is too large, this may affect
-the usability of the tab bar. To keep track in this situation, you can use the
-tab menu. The menu allows you to quickly select the dockwidget you want to
-activate from a drop down menu. This flag shows / hides the tabs menu button
-in the dock area title bar. On the left side, the tabs menu button flag
-is cleared.
+Вкладки - это хороший способ быстрого переключения между док-виджетами в док-области.
+Однако если количество док-виджетов в док-области слишком велико, это может повлиять на
+удобство использования панели вкладок. Для отслеживания в такой ситуации можно использовать
+меню вкладок. Меню позволяет быстро выбрать нужный доквиджет из выпадающего меню.
+активизировать из выпадающего меню. Этот флаг показывает / скрывает кнопку меню вкладок
+в строке заголовка док-области. В левой части флаг кнопки меню вкладок
+снят.
 
 ![DockAreaHasTabsMenuButton false true](cfg_flag_DockAreaHasTabsMenuButton_false_true.png)
 
 ### `DockAreaHideDisabledButtons`
 
-If certain flags of a dock widget are disabled, like `DockWidgetClosable` or
-`DockWidgetFloatable`, then the corresponding dock area buttons like close
-button or detach button are disabled (greyed out). This is the default
-setting.
-
+Если у док-виджета отключены некоторые флаги, например `DockWidgetClosable` или
+`DockWidgetFloatable`, то соответствующие кнопки док-области, такие как кнопка закрытия
+или отсоединения, будут отключены (выделены серым цветом). Это настройка по умолчанию
+настройка.
 ![DockAreaHideDisabledButtons false](cfg_flag_DockAreaHideDisabledButtons_false.png)
 
-If the flag is set, disabled dock area buttons will not appear on the toolbar at
-all - they are hidden.
+Если флаг установлен, то отключенные кнопки док-области вообще не будут отображаться на панели инструментов - они будут скрыты.
+- они будут скрыты.
 
 ![DockAreaHideDisabledButtons true](cfg_flag_DockAreaHideDisabledButtons_true.png)
 
 ### `DockAreaDynamicTabsMenuButtonVisibility`
 
-If this flag is cleared, the the tabs menu button is always visible. This is
-the default setting. If the flag is set, the tabs menu button will be shown
-only when it is required - that means, if the tabs are elided.
+Если этот флаг сброшен, то кнопка меню вкладок всегда видна. Это
+настройка по умолчанию. Если флаг установлен, то кнопка меню вкладок будет отображаться
+только тогда, когда это необходимо, т.е. если вкладки скрыты.
 
 ![DockAreaDynamicTabsMenuButtonVisibility false](cfg_flag_DockAreaDynamicTabsMenuButtonVisibility_true_visible.png)
 
-If the tabs are not elided, the tabs menu button is hidden.
+Если вкладки не элиминированы, то кнопка меню вкладок скрыта.
 
 ![DockAreaDynamicTabsMenuButtonVisibility false](cfg_flag_DockAreaDynamicTabsMenuButtonVisibility_true_hidden.png)
 
 ### `FloatingContainerHasWidgetTitle`
 
-If set (default), the floating widget window title reflects the title of the
-current dock widget.
+Если установлено (по умолчанию), то заголовок окна плавающего виджета отражает заголовок текущего док-виджета
+текущего виджета док-станции.
 
 ![FloatingContainerHasWidgetTitle true](cfg_flag_FloatingContainerHasWidgetTitle_true.png)
 
-otherwise it displays the title set with `CDockManager::setFloatingContainersTitle` or
-application name as window title.
+в противном случае в качестве заголовка окна отображается заголовок, установленный с помощью `CDockManager::setFloatingContainersTitle` или
+имя приложения в качестве заголовка окна.
 
 ![FloatingContainerHasWidgetTitle false](cfg_flag_FloatingContainerHasWidgetTitle_false.png)
 
 ### `FloatingContainerHasWidgetIcon`
 
-If set, the floating widget icon reflects the icon of the current dock widget
+Если установлено, то значок плавающего виджета отражает значок текущего виджета док-станции
 
 ![FloatingContainerHasWidgetIcon true](cfg_flag_FloatingContainerHasWidgetIcon_true.png)
 
-otherwise (default setting) it displays application icon.
+В противном случае (по умолчанию) отображается значок приложения.
 
 ![FloatingContainerHasWidgetIcon false](cfg_flag_FloatingContainerHasWidgetIcon_false.png)
 
 ### `HideSingleCentralWidgetTitleBar`
 
-If there is only one single visible dock widget in the main dock container (the dock manager)
-and if this flag is set, then the titlebar of this dock widget will be hidden.
-This only makes sense for non draggable and non floatable dock widgets and enables
-the creation of some kind of "central" static widget. Because the titlebar is
-hidden, it is not possible to drag out the central widget to make it floating
-or to close it via the close button.
+Если в главном док-контейнере (менеджере доков) имеется только один единственный видимый док-виджет
+и если этот флаг установлен, то панель заголовка этого док-виджета будет скрыта.
+Это имеет смысл только для неперетаскиваемых и неплавающих док-виджетов и позволяет
+создание некоего "центрального" статического виджета. Поскольку панель заголовка скрыта
+скрыта, невозможно перетащить центральный виджет, чтобы сделать его плавающим
+или закрыть его с помощью кнопки закрытия.
 
 ![HideSingleCentralWidgetTitleBar true](cfg_flag_HideSingleCentralWidgetTitleBar_true.png)
 
-The Advanced Docking System is meant for applications without a static central
-widget and normally does not know anything about a central static widget.
-Therefore this flag is disabled by default and a central single dock widget
-still has a titlebar to drag it out of the main window.
+Система Advanced Docking System предназначена для приложений без центрального статического виджета и обычно не знает о центральном статическом виджете.
+виджета и обычно ничего не знает о центральном статическом виджете.
+Поэтому по умолчанию этот флаг отключен, и центральный одиночный док-виджет
+по-прежнему имеет панель заголовка, чтобы вытащить его из главного окна.
 
 ![HideSingleCentralWidgetTitleBar false](cfg_flag_HideSingleCentralWidgetTitleBar_false.png)
 
 ### `FocusHighlighting`
 
-If this is enabled, the docking system is able to highlight the tab and the
-components of a dock area with a different style (i.e. a different color).
-This option is disabled by default and needs to be enabled explicitly
-because it adds some overhead. The dock manager needs to react on focus
-changes and dock widget dragging to highlight the right dock widget. You should
-enable it only, if you really need it for your application.
+Если эта опция включена, то система докинга может выделять вкладку и компоненты
+компоненты док-области другим стилем (т.е. другим цветом).
+По умолчанию эта опция отключена и должна быть включена явно
+поскольку она создает дополнительные накладные расходы. Менеджер док-станции должен реагировать на изменение фокуса
+и перетаскивание док-виджета для выделения нужного док-виджета. Вам следует
+включать эту функцию только в том случае, если она действительно необходима для вашего приложения.
 
-If the feature is enabled, you can also connect to the new dock manager
-signal `focusedDockWidgetChanged(CDockWidget* old, CDockWidget* now)` to
-react on focus changes and to prepare the content of the focused dock
-widget.
+Если функция включена, вы также можете подключиться к новому докменеджеру
+сигнал `focusedDockWidgetChanged(CDockWidget* old, CDockWidget* now)`, чтобы
+реагировать на изменение фокуса и подготавливать содержимое сфокусированного док-виджета
+виджета.
 
-You can click into the tab, the titlebar or the content of a dock widget
-to focus it.
+Для фокусировки док-виджета можно щелкнуть на вкладке, панели заголовка или содержимом док-виджета
+чтобы сфокусировать его.
 
 ![FocusHighlighting](cfg_flag_FocusHighlighting.gif)
 
-For the focused dock widget and dock widget tab, the property `focused` will
-be set to true and you can use this property to style the focused dock
-widget differently. The picture above uses the following styling:
+Для сфокусированного виджета дока и вкладки виджета дока свойство `focused` будет установлено в true, и это свойство можно использовать для стилизации сфокусированного виджета дока.
+будет установлено в true, и вы сможете использовать это свойство для придания сфокусированному виджету дока другого стиля
+виджета. На рисунке выше используется следующая стилизация:
 
 ```css
-/* Color the tab with the highlight color */
+/* Раскрасьте вкладку цветом выделения */
 ads--CDockWidgetTab[focused="true"]
 {
     background: palette(highlight);
     border-color: palette(highlight);
 }
 
-/* Use a different colored close button icon to match the test color */
+/* Используйте другой цвет значка кнопки закрытия, чтобы он соответствовал цвету теста */
 ads--CDockWidgetTab[focused="true"] > #tabCloseButton
 {
 	qproperty-icon: url(:/ads/images/close-button-focused.svg)
 }
 
-/* Make a hovered focused close button a little bit lighter */
+/* Сделать наведенную кнопку закрытия фокуса немного светлее */
 ads--CDockWidgetTab[focused="true"] > #tabCloseButton:hover
 {
 	background: rgba(255, 255, 255, 48);
 }
 
-/* Make a pressed focused close button even more lighter */
+/* Сделать нажатую кнопку закрытия еще более светлой */
 ads--CDockWidgetTab[focused="true"] > #tabCloseButton:pressed
 {
 	background: rgba(255, 255, 255, 92);
 }
 
-/* Use a different color for the tab label */
+/* Использовать другой цвет для ярлыка вкладки */
 ads--CDockWidgetTab[focused="true"] QLabel
 {
     color: palette(light);
 }
 
-/* Paint a nice solid line for the whole title bar to create the illusion
-   of an active tab */
+/* Нарисуйте красивую сплошную линию для всей строки заголовка, чтобы создать иллюзию
+   активной вкладки */
 ads--CDockAreaWidget[focused="true"] ads--CDockAreaTitleBar
 {
 	background: transparent;
@@ -367,11 +365,11 @@ ads--CDockAreaWidget[focused="true"] ads--CDockAreaTitleBar
 }
 ```
 
-If you have a content widget that does not support focussing for some reason
-(like `QVTKOpenGLStereoWidget` from the [VTK library](https://github.com/Kitware/VTK)),
-then you can manually switch the focus by reacting on mouse events. The 
-following code shows, how to install en event filter on the `QVTKOpenGLStereoWidget`
-to properly switch the focus on `QEvent::MouseButtonPress`:
+Если у вас есть виджет содержимого, который по каким-либо причинам не поддерживает фокусировку
+(например, `QVTKOpenGLStereoWidget` из библиотеки [VTK](https://github.com/Kitware/VTK)),
+то можно вручную переключать фокус, реагируя на события мыши. На 
+В следующем коде показано, как установить фильтр событий en на `QVTKOpenGLStereoWidget`
+для корректного переключения фокуса по событию `QEvent::MouseButtonPress`:
 
 ```c++
 static ads::CDockWidget* createVTK2DWindow(QMenu* ViewMenu, QObject* EventFilter)
@@ -385,8 +383,8 @@ static ads::CDockWidget* createVTK2DWindow(QMenu* ViewMenu, QObject* EventFilter
 }
 ```
 
-Now we can use the event filter function to react on mouse events and then
-use the dock manager function `setDockWidgetFocused()` to switch the focus:
+Теперь мы можем использовать функцию фильтра событий для реагирования на события мыши, а затем
+использовать функцию док менеджера `setDockWidgetFocused()` для переключения фокуса:
 
 ```c++
 bool CMainWindow::eventFilter(QObject *watched, QEvent *event)
@@ -412,105 +410,105 @@ bool CMainWindow::eventFilter(QObject *watched, QEvent *event)
 
 ### `EqualSplitOnInsertion`
 
-This flag configures how the space is distributed if a new dock widget is
-inserted into an existing dock area. The flag is disabled by default. If 3 
-dock widgets are inserted with the following code
+Этот флаг определяет, как будет распределяться пространство, если новый виджет дока будет вставлен в существующую область дока
+вставляется в существующую область дока. По умолчанию флаг отключен. Если в существующую область дока вставлено 3 
+док-виджетов вставляются со следующим кодом
 
 ```c++
 d->DockManager->addDockWidget(ads::RightDockWidgetArea, DockWidget, EditorArea);
 ```
 
-then this is the result, if the flag is disabled:
+то вот результат, если флаг отключен:
 
 ![EqualSplitOnInsertion false](cfg_flag_EqualSplitOnInsertion_false.png)
 
-If the flag is enabled, then the space is equally distributed to all widgets 
-in a  splitter:
+Если флаг установлен, то пространство распределяется поровну между всеми виджетами 
+в сплиттере:
 
 ![EqualSplitOnInsertion true](cfg_flag_EqualSplitOnInsertion_true.png)
 
 
 ### `FloatingContainerForceNativeTitleBar` (Linux only)
 
-Since release 3.6 the library supports native title bars and window decorations
-for floating widgets on Linux (thanks to a user contribution).
-Native title bars and window decorations are supported by most Linux window
-managers, such as Compiz or Xfwm. Some window managers like KWin do not properly
-support this feature. Native floating widgets look better because of the native
-styling and the support all window manager features like snapping to window
-borders or maximizing. The library tries to detect the window manager during
-runtime and activates native window decorations if possible:
+Начиная с версии 3.6 библиотека поддерживает собственные строки заголовков и украшения окон
+для плавающих виджетов в Linux (благодаря вкладу пользователя).
+Родные строки заголовка и оформление окон поддерживаются большинством оконных менеджеров Linux
+менеджеров, таких как Compiz или Xfwm. Некоторые оконные менеджеры, например KWin, не поддерживают эту функцию должным образом
+не поддерживают эту функцию. Родные плавающие виджеты выглядят лучше благодаря родному
+стилистики и поддержки всех функций оконного менеджера, таких как привязка к границам окна
+границы окна или максимизацию. Библиотека пытается определить оконный менеджер во время
+во время выполнения программы и, если возможно, активизирует нативные элементы оформления окна:
 
 ![FloatingContainerForceNativeTitleBar true](cfg_flag_FloatingContainerForceNativeTitleBar_true.png)
 
-If you would like to overwrite this autodetection, then you can  activate this
-flag to force native window titlebars. You can overwrite autodetection and this
-flag, if you set the environment variable `ADS_UseNativeTitle` to 0 or 1.
+Если вы хотите отменить это автоопределение, то можете активизировать этот флаг
+флаг для принудительного использования собственных заголовков окон. Вы можете отменить автоопределение и этот
+флаг, если установить переменную окружения `ADS_UseNativeTitle` в 0 или 1.
 
 ### `FloatingContainerForceQWidgetTitleBar` (Linux only)
 
-If your window manager (i.e. KWin) does not properly support native floating
-windows, the docking library falls back to QWidget based floating widget
-title bars.
+Если ваш оконный менеджер (например, KWin) не поддерживает должным образом встроенные плавающие окна
+окна, библиотека докинга возвращается к плавающим виджетам на основе QWidget
+строки заголовка.
 
 ![FloatingContainerForceNativeTitleBar false](cfg_flag_FloatingContainerForceNativeTitleBar_false.png)
 
-If you would like to overwrite autodetection, then you can activate this flag
-to force QWidget based title bars. You can overwrite autodetection and this
-flag, if you set the environment variable `ADS_UseNativeTitle` to 0 or 1.
+Если вы хотите отменить автоопределение, то можете активизировать этот флаг
+для принудительного использования строк заголовков на основе QWidget. Вы можете отменить автоопределение и этот флаг, если установите переменную окружения `ADS_UseNativeTitle
+флаг, если установить переменную окружения `ADS_UseNativeTitle` в 0 или 1.
 
 ### `MiddleMouseButtonClosesTab`
 
-If the flag is set, the user can use the mouse middle button to close the tab
-under the mouse. So you do not need to exactly hit the tab close button to
-close tab. Just click with the middle mouse button on a tab like this is
-possible in various web browsers.
+Если флаг установлен, то пользователь может использовать среднюю кнопку мыши для закрытия вкладки
+под мышью. Таким образом, для закрытия вкладки не нужно точно нажимать кнопку закрытия вкладки.
+закрыть вкладку. Достаточно просто щелкнуть средней кнопкой мыши на вкладке, как это
+возможно в различных веб-браузерах.
 
 ![MiddleMouseButtonClosesTab true](cfg_flag_MiddleMouseButtonClosesTab.gif)
 
 ### `DisableTabTextEliding`
 
-Set this flag to disable eliding of tab texts in dock area tabs.
+Установите этот флаг, чтобы отключить выравнивание текстов вкладок в закладках док-области.
 
 ## Auto-Hide Configuration Flags
 
 ### Auto Hide Dock Widgets
 
-The Advanced Docking System supports "Auto-Hide" functionality for **all**
-dock containers. The "Auto Hide" feature allows to display more information
-using less screen space by hiding or showing windows pinned to one of the 
-four dock container borders.
+Система Advanced Docking System поддерживает функцию "Auto-Hide" для **all**
+док-контейнеров. Функция "Auto Hide" позволяет отображать больше информации
+используя меньше места на экране, скрывая или показывая окна, прикрепленные к одной из четырех границ док-контейнера 
+четырех границ док-контейнера.
 
-Enabling this feature adds a button with a pin icon to each dock area.
+Включение этой функции добавляет кнопку со значком булавки в каждую область док-станции.
 
 ![DockAreaHasAutoHideButton true](cfg_flag_DockAreaHasAutoHideButton.png)
 
-By clicking this button, the current dock widget (or the complete area - depending on the
-configuration flags) will be pinned to a certain border. The border is chosen
-depending on the location of the dock area. If you click the pin button while
-holding down the **Ctrl** key, the whole dock area will be pinned to a certain
-border.
+При нажатии на эту кнопку текущий виджет дока (или вся область - в зависимости от флагов конфигурации) будет прижат к определенной границе
+флагов конфигурации) будет прикреплен к определенной границе. Граница выбирается
+в зависимости от расположения док-области. Если щелкнуть на кнопке pin, удерживая клавишу
+удерживая клавишу **Ctrl**, то вся область дока будет прикреплена к определенной границе
+границе.
 
-### Pinning Auto-Hide Widgets to a certain border
+### Прикрепление виджетов автоскрытия к определенной границе
 
-If you would like to pin a dock widget or a dock area to a certain border,
-then you can right-click into the dock widget tab or into the dock area title bar
-to show the context menu. Then you can select the location via the **Pin to** menu:
+Если вы хотите прикрепить виджет док-станции или область док-станции к определенной границе,
+то можно щелкнуть правой кнопкой мыши на вкладке док-виджета или на строке заголовка док-области
+чтобы вызвать контекстное меню. Затем можно выбрать местоположение с помощью меню **Pin to**:
 
 ![Pin to](AutoHide_PinTo.png)
 
-### Show / Hide Auto-Hide Widgets via Mouse Over
+### Показ / скрытие автоскрытия виджетов при наведении мыши
 
-Normally Auto-Hide widgets are shown by clicking the Auto-Hide tab and hidden by
-clicking the Auto-Hide tab again or by clicking into any other dock widget in
-the same container. If the Auto-Hide config flag `AutoHideShowOnMouseOver` is set,
-the Auto-Hide widget is shown, if the user hovers over the Auto-Hide tab and is
-collapsed if the mouse cursor leaves the Auto-Hide widget. Showing and hiding
-by mouse click still works if this feature is enabled.
+Обычно виджеты Auto-Hide отображаются при щелчке на вкладке Auto-Hide и скрываются при повторном щелчке на вкладке Auto-Hide или при щелчке на любом другом виджете дока.
+щелчком на вкладке Auto-Hide или щелчком на любом другом виджете док-станции в том же контейнере.
+том же контейнере. Если установлен флаг конфигурации Auto-Hide `AutoHideShowOnMouseOver`,
+виджет Auto-Hide будет показан, если пользователь наведет курсор мыши на вкладку Auto-Hide, и свернут, если курсор мыши наведет курсор на вкладку Auto-Hide.
+сворачивается, если курсор мыши покидает виджет Auto-Hide. Показ и скрытие
+по щелчку мыши по-прежнему работают, если эта функция включена.
 
-### Adding Auto Hide Widgets
+### Добавление виджетов с автоматическим скрытием
 
-Adding an auto hide widget is similar to adding a dock widget, simply call
+Добавление виджета автоскрытия аналогично добавлению виджета дока, просто вызовите функцию
 `dockManager->addAutoHideDockWidget()`.
 
 ```c++
@@ -520,14 +518,14 @@ CDockWidget* TableDockWidget = new CDockWidget("Table 1");
 DockManager->addAutoHideDockWidget(SideBarLeft, TableDockWidget);
 ```
 
-See `autohide` example or the demo application to learn how it works.
+Как это работает, смотрите в примере `autohide` или в демонстрационном приложении.
 
-### Setting Auto-Hide Flags
+### Установка флагов автоскрытия
 
-The Advanced Docking System has a number of global configuration flags to
-configure the Auto-Hide functionality. You should set the Auto-Hide flags before
-creating the dock manager instance. That means, you should set the Auto-Hide
-flags after setting the configuration flags.
+Система Advanced Docking System имеет ряд флагов глобальной конфигурации для настройки
+для настройки функции Auto-Hide. Флаги Auto-Hide следует устанавливать до
+создания экземпляра менеджера доков. Это означает, что флаги Auto-Hide следует устанавливать после установки флагов конфигурации.
+после установки флагов конфигурации.
 
 ```c++
 CDockManager::setConfigFlag(CDockManager::FocusHighlighting, true);
@@ -537,183 +535,183 @@ CDockManager::setAutoHideConfigFlag(CDockManager::AutoHideShowOnMouseOver, true)
 d->DockManager = new CDockManager(this);
 ```
 
-If you set the Auto-Hide flags, you can set individual flags using the
-function `CDockManager::setAutoHideConfigFlag` or you can set all flags using
-the function `CDockManager::setAutoHideConfigFlags`. Instead of settings all
-flags individually, it is better to pick a predefined set of configuration
-flags and then modify individual flags. The following predefined
-configurations are available
+Если вы установили флаги Auto-Hide, то можно установить отдельные флаги с помощью функции `CDockManager::setAutoHideConfigFlag
+функцию `CDockManager::setAutoHideConfigFlag` или установить все флаги с помощью функции
+функции `CDockManager::setAutoHideConfigFlags`. Вместо того чтобы устанавливать все
+флагов по отдельности, лучше выбрать предопределенный набор конфигурационных
+флагов, а затем изменять отдельные флаги. Ниже приведены предопределенные
+конфигурации
 
-- `DefaultAutoHideConfig` - default auto hide config
+- `DefaultAutoHideConfig` - конфигурация автоматического скрытия по умолчанию
 
-Pick one of those predefined configurations and then modify the following
-configurations flags to adjust the docking system to your needs.
+Выберите одну из этих предопределенных конфигураций, а затем измените следующие
+флаги конфигурации, чтобы настроить систему стыковки под свои нужды.
 
 ### `AutoHideFeatureEnabled`
 
-Enables / disables the Auto-Hide functionality. Only if this flag is enabled,
-the other Auto-Hide flags will be evaluated.
+Включает/выключает функцию Auto-Hide. Только если этот флаг включен,
+будут оцениваться и другие флаги Auto-Hide.
 
 ### `DockAreaHasAutoHideButton`
 
-If this flag is set (default), then each dock area has a pin button in the title 
-bar to toggle Auto-Hide state.
+Если этот флаг установлен (по умолчанию), то каждая док-область имеет кнопку в строке заголовка для переключения автоскрытия. 
+для переключения состояния Auto-Hide.
 
 ![DockAreaHasAutoHideButton true](cfg_flag_DockAreaHasAutoHideButton.png)
 
 ### `AutoHideButtonTogglesArea`
 
-If set, the the pin button in the dock area title bar toggles the complete area.
-If not set (default), then the pin button toggles the current active tab / dock
-widget and pressing the **Ctrl** key while clicking the pin button toggles the
-complete ara.
+Если этот параметр установлен, то кнопка-фиксатор в строке заголовка док-области переключает всю область.
+Если значение не установлено (по умолчанию), то кнопка переключает текущую активную вкладку/виджет док-станции.
+виджета, а нажатие клавиши **Ctrl** при щелчке на кнопке переключает всю область.
+полный ара.
 
 ### `AutoHideButtonCheckable`
 
-Normally the pin button in the dock area title bar is not checkable. If this
-flag is set, then the button is checkable. That means, if button is checked,
-the dock widget is pinned.
+Обычно кнопка pin в строке заголовка док-области не является проверяемой. Если этот
+флаг установлен, то кнопка является проверяемой. Это означает, что если кнопка отмечена,
+виджет док-станции будет прикреплен.
 
-### `AutoHideSideBarsIconOnly`
+### `AutoHideSideBarsIconOnly`.
 
-Normally the Auto-Hide tabs show the icon and title of the dock widget:
+Обычно на вкладках Auto-Hide отображаются иконка и заголовок виджета док-станции:
 
 ![AutoHideSideBarsIconOnly false](cfg_flag_AutoHideSideBarsIconOnly_false.png)
 
-You can set this flag, if you would like to have only icons in the Auto-Hide
-tabs instead of icon and dock widget title. If this is set, the Auto-Hide tab
-needs less space. The tooltip of each tab still shows the dock widget title.
+Вы можете установить этот флаг, если хотите, чтобы на вкладках Auto-Hide отображались только значки
+вместо иконок и заголовков док-виджетов. Если флаг установлен, то вкладка Auto-Hide
+займет меньше места. При этом во всплывающей подсказке каждой вкладки по-прежнему отображается заголовок док-виджета.
 
 ![AutoHideSideBarsIconOnly true](cfg_flag_AutoHideSideBarsIconOnly_true.png)
 
 ### `AutoHideShowOnMouseOver`
 
-Normally Auto-Hide widgets are shown by clicking the Auto-Hide tab and
-hidden by clicking the Auto-Hide tab again or by clicking into any other
-dock widget in the same container. If this flag is set, the Auto-Hide widget
-is shown, if the user hovers over the Auto-Hide tab or if the users moves the
-mouse outside of the Auto-Hide widget. Showing and hiding my mouse click still
-works if this feature is enabled.
+Обычно виджеты Auto-Hide отображаются при щелчке на вкладке Auto-Hide и скрываются при повторном щелчке на вкладке Auto-Hide или при щелчке на другом месте.
+скрываются при повторном щелчке на вкладке Auto-Hide или при щелчке на любом другом
+док-виджет в том же контейнере. Если этот флаг установлен, то виджет Auto-Hide
+будет показан, если пользователь наведет курсор на вкладку Auto-Hide или переместит мышь за пределы виджета Auto-Hide.
+мышь за пределы виджета Auto-Hide. Показ и скрытие по щелчку мыши по-прежнему
+работают, если эта функция включена.
 
 ### `AutoHideCloseButtonCollapsesDock`
 
-Some users don't understand the distinction between closing an auto hide dock and
-collapsing an auto hide dock. This may lead to situations where they press the
-close button (losing the side tab widget) instead of simply clicking outside
-the auto hide dock (collapsing the dock). 
+Некоторые пользователи не понимают разницы между закрытием автоматически скрываемого дока и
+сворачиванием автоскрывающегося дока. Это может привести к ситуации, когда пользователь нажимает кнопку
+кнопку закрытия (при этом виджет боковой вкладки теряется) вместо того, чтобы просто щелкнуть мышью за пределами автоскрывающегося дока (сворачивание дока).
+(сворачивание дока).
 
 ![AutoHideCloseButtonCollapsesDock false](cfg_flag_AutoHideCloseButtonCollapsesDock_false.gif)
 
-If `AutoHideCloseButtonCollapsesDock` option is active, the
-close button in an auto hide widget collapses the auto hide widget instead of
-closing it.
+Если активна опция `AutoHideCloseButtonCollapsesDock`, то кнопка закрытия в виджете автоскрытия сворачивает виджет автоскрытия вместо кнопки закрытия.
+кнопка закрытия в виджете автоскрытия сворачивает виджет автоскрытия, а не закрывает его
+закрытия.
 
 ![AutoHideCloseButtonCollapsesDock true](cfg_flag_AutoHideCloseButtonCollapsesDock_true.gif)
 
-## DockWidget Feature Flags
+## Флаги возможностей(фишек) DockWidget
 
 ### `DockWidgetClosable`
 
-If set, the dock widget will have a close button.
+Если значение установлено, то виджет док-станции будет иметь кнопку закрытия.
 
 ### `DockWidgetMovable`
 
-If a dock widget is movable, then it and can be moved to a new position in the
-current dock container. Disable this flag to prevent moving of a dock widget
-via mouse.
+Если виджет дока является подвижным, то он может быть перемещен в новую позицию в текущем контейнере дока.
+текущем док-контейнере. Отключите этот флаг, чтобы предотвратить перемещение док-виджета
+с помощью мыши.
 
 ### `DockWidgetFloatable`
 
-If set, a dock widget can be dragged into a floating window.
+Если значение установлено, то виджет док-станции можно перетащить в плавающее окно.
 
 ### `DockWidgetDeleteOnClose`
 
-Deletes the dock widget and its content when it is closed.
+Удаляет виджет дока и его содержимое после его закрытия.
 
 ### `CustomCloseHandling`
 
-Clicking the close button will not close the dock widget but emits the
-`closeRequested()` signal instead. This allows the application to implement
-a custom close handling.
+При нажатии на кнопку закрытия виджет дока не закрывается, а вместо этого выдается сигнал
+`closeRequested()`. Это позволяет приложению реализовать
+пользовательскую обработку закрытия.
 
 ### `DockWidgetFocusable`
 
-If this is enabled, a dock widget can get focus highlighting.
+Если эта опция включена, то виджет док-станции может получить подсветку фокуса.
 
 ### `DockWidgetForceCloseWithArea`
 
-A dock widget will be closed when the dock area hosting it is closed. If the
-`DockWidgetDeleteOnClose` feature is enabled for a dock widget, then it will
-be deleted, if the user clicks the close button of this dock widget. If the
-user clicks the close button of the dock area that contains this widget,
-then only the visibility of the dock widget is toggled. If this feature flag
-is set, the closing the dock area also closes the dock widget. That means, if
-the dock widget feature `DockWidgetDeleteOnClose` is set for the dock widgets
-in a dock area, then all dock widgets will be deleted if the dock area is closed.
+Виджет дока будет закрыт, когда будет закрыта область дока, размещающая его. Если для виджета дока включена функция
+функция `DockWidgetDeleteOnClose` включена для док-виджета, то он будет удален, если пользователь нажмет кнопку закрытия этого док-виджета.
+будет удален, если пользователь нажмет на кнопку закрытия этого док-виджета. Если
+пользователь нажимает кнопку закрытия док-области, содержащей этот виджет,
+то переключается только видимость док-виджета. Если флаг этой функции
+установлен, то при закрытии док-области закрывается и док-виджет. Это означает, что если
+для виджетов док-станции установлена функция `DockWidgetDeleteOnClose`, то все виджеты док-станции
+в док-области, то при закрытии док-области все док-виджеты будут удалены.
 
 ### `NoTab`
 
-A dock widget tab will never be shown if this flag is set.
+При установке этого флага вкладка виджета дока никогда не будет показана.
 
 ### `DeleteContentOnClose`
 
-Deletes only the contained widget on close, keeping the dock widget intact and
-in place. Attempts to rebuild the contents widget on show if there is a widget
-factory set. See [issue #365](https://github.com/githubuser0xFFFF/Qt-Advanced-Docking-System/pull/365) for more details.
+Удаляет только содержащийся виджет при закрытии, сохраняя виджет дока нетронутым и на месте
+на своем месте. Пытается перестроить виджет содержимого при показе, если имеется фабрика виджетов
+factory set. Подробнее см. в [issue #365](https://github.com/githubuser0xFFFF/Qt-Advanced-Docking-System/pull/365).
 
 ## Central Widget
 
-The Advanced Docking System has been developed to overcome the limitations of
-the native Qt docking system with its central widget concept. This was the
-reason that until version 3.6 of the library, there was no support for such
-thing like a central widget. Thanks to the contribution of a user the library
-now supports a central widget.
+Система Advanced Docking System была разработана для преодоления ограничений
+родной системы докинга Qt с ее концепцией центрального виджета. Именно по этой причине
+причиной того, что до версии 3.6 в библиотеке отсутствовала поддержка такой вещи, как центральный виджет.
+как центральный виджет. Благодаря вкладу одного из пользователей библиотека
+теперь поддерживает центральный виджет.
 
-In the Advanced Docking System a central widget is a docking widget that is
-neither closable nor movable or floatable. A central widget has no title bar
-and so it is not possible for the user to hide, close or drag the central
-widget. If there is a central widget, then also the distribution of the sizes
-for the dock widgets around the central widget is different:
+В системе Advanced Docking System центральный виджет - это виджет стыковки, который не является ни закрываемым, ни перемещаемым, ни плавающим.
+ни закрываемым, ни перемещаемым, ни плавающим. Центральный виджет не имеет строки заголовка
+и поэтому пользователь не может скрыть, закрыть или перетащить центральный виджет.
+виджет. Если есть центральный виджет, то и распределение размеров
+для виджетов док-станции вокруг центрального виджета:
 
-- **no central widget (default)** - on resizing the available space is
-distributed to all dock widgets - the size of all dock widgets
-shrinks or grows
-- **with central widget** - on resizing only the central widget is resized - the
-dock widgets around the central widget keep their size (see the animation below)
+- **без центрального виджета (по умолчанию)** - при изменении размера доступное пространство распределяется
+распределяется между всеми виджетами док-станции - размеры всех виджетов док-станции
+уменьшается или увеличивается
+- **с центральным виджетом** - при изменении размера изменяется размер только центрального виджета - виджеты дока вокруг центрального виджета уменьшаются или увеличиваются.
+док-виджеты вокруг центрального виджета сохраняют свои размеры (см. анимацию ниже)
 
-![Central Widget](central_widget.gif)
+![Центральный виджет](central_widget.gif)
 
-To set a central widget, you just need to pass your central dock widget
-to the dock manager `setCentralWidget` function:
+Чтобы установить центральный виджет, достаточно передать центральный виджет дока
+в функцию докменеджера `setCentralWidget`:
 
 ```c++
 auto* CentralDockArea = DockManager->setCentralWidget(CentralDockWidget);
 ```
 
-See the `centralwidget` example to learn how it works.
+Как это работает, смотрите в примере `centralwidget`.
 
-> ##### Note
-> The central widget needs to be the first dock widget that is added to the
-> dock manager. The function does not work and returns a `nullptr` if there
-> are already other dock widgets registered. So `setCentralWidget` should be
-> the first function that you call when adding dock widgets.
+> ##### Примечание
+> Центральный виджет должен быть первым виджетом дока, который добавляется в
+> менеджера доков. Функция не работает и возвращает `nullptr`, если
+> уже зарегистрированы другие док-виджеты. Поэтому `setCentralWidget` должна быть
+> первой функцией, вызываемой при добавлении док-виджетов.
 
 ## Empty Dock Area
 
-Some applications require a fixed DockArea that is always visible, even if it
-does not contain any DockWidgets. I.e. the DockArea is in this case a kind
-of central widget that is always visible (see this
+В некоторых приложениях требуется фиксированная DockArea, которая всегда видна, даже если она не содержит никаких DockWidgets.
+не содержит никаких DockWidgets. Т.е. DockArea в этом случае является своего рода
+центрального виджета, который всегда виден (см.
 [issue](https://github.com/githubuser0xFFFF/Qt-Advanced-Docking-System/issues/199)).
 
-Since version 3.7.1 the advanced docking system supports this feature. The
-`emptydockarea` example shows how this can be implemented with the library. You
-just need to create a dock widget and set the feature flag `CDockWidget::NoTab`.
-This permanently hides the tab widget of this area and removes it from the tab
-menu. For this special dock widget you should also disable all other features
-(movable, closable and floatable) to prevent closing and moving of this widget.
-If you use the `CDockManager::setCentralWidget` function like in the example
-code below, then you don't need to disable these features because this is done
-in the `setCentralWidget` function.
+Начиная с версии 3.7.1 расширенная система докинга поддерживает эту возможность. На сайте
+Пример `emptydockarea` показывает, как это может быть реализовано с помощью библиотеки. Вам
+достаточно создать док-виджет и установить флаг свойства `CDockWidget::NoTab`.
+Это навсегда скрывает виджет вкладки данной области и удаляет его из меню вкладки
+меню. Для этого специального док-виджета необходимо также отключить все остальные функции
+(подвижные, закрываемые и плавающие), чтобы предотвратить закрытие и перемещение этого виджета.
+Если использовать функцию `CDockManager::setCentralWidget`, как в примере
+код ниже, то отключать эти возможности не нужно, так как это делается в функции `setCentralWidget
+в функции `setCentralWidget`.
 
 ```c++
 QLabel* label = new QLabel();
@@ -725,24 +723,24 @@ CentralDockWidget->setFeature(ads::CDockWidget::NoTab, true);// set the flag bef
 auto* CentralDockArea = DockManager->setCentralWidget(CentralDockWidget);
 ```
 
-## Custom Close Handling
+## Пользовательское открытие/скрытие виджетов
 
-Normally clicking the close button of a dock widget will just hide the widget and the user can show it again using the `toggleView()` action of the dock widget. This is meant for user interfaces with a static amount of widgets. But the advanced docking system also supports dynamic dock widgets that will get deleted on close. If you set the dock widget flag `DockWidgetDeleteOnClose` for a certain dock widget, then it will be deleted as soon as you close this dock widget. This enables the implementation of user interfaces with dynamically created editors, like in word processing applications or source code development tools.
+Обычно при нажатии на кнопку закрытия виджета док-станции он просто скрывается, и пользователь может снова показать его с помощью действия `toggleView()` виджета док-станции. Это предназначено для пользовательских интерфейсов со статическим количеством виджетов. Однако усовершенствованная система докинга поддерживает и динамические док-виджеты, которые будут удаляться при закрытии. Если для определенного док-виджета установить флаг `DockWidgetDeleteOnClose`, то при закрытии этого док-виджета он будет удален. Это позволяет реализовать пользовательские интерфейсы с динамически создаваемыми редакторами, например, в текстовых редакторах или средствах разработки исходного кода.
 
-When an entire area is closed, the default behavior is to hide the dock widgets it contains regardless of the `DockWidgetDeleteOnClose` flag except if there is only one dock widget. In this special case, the `DockWidgetDeleteOnClose` flag is followed. This behavior can be changed by setting the `DockWidgetForceCloseWithArea` flag to all the dock widgets that needs to be closed with their area.
+При закрытии всей области по умолчанию происходит скрытие содержащихся в ней док-виджетов независимо от флага `DockWidgetDeleteOnClose`, за исключением случаев, когда имеется только один док-виджет. В этом особом случае флаг `DockWidgetDeleteOnClose` выполняется. Такое поведение можно изменить, установив флаг `DockWidgetForceCloseWithArea` для всех виджетов дока, которые необходимо закрыть вместе с их областью.
 
-## Styling
+## Стайлинг
 
-The Advanced Docking System supports styling via [Qt Style Sheets](https://doc.qt.io/qt-5/stylesheet.html). All components like splitters, tabs, buttons, titlebar and
-icons are styleable this way.
+Advanced Docking System поддерживает стилизацию с помощью [Qt Style Sheets](https://doc.qt.io/qt-5/stylesheet.html). Все компоненты, такие как сплиттеры, вкладки, кнопки, панели заголовков и
+иконки, могут быть стилизованы таким образом.
 
-### Disabling the Internal Style Sheet
+### Отключение внутренней таблицы стилей
 
-The dock manager uses an internal stylesheet to style its components. That
-means, the style that you see in the demo application comes from the
-internal stylesheets that you will find in `src/stylesheets` folder. If you want
-to disable this internal stylesheet because your application uses its own,
-just call the function for settings the stylesheet with an empty string.
+Менеджер доков использует внутреннюю таблицу стилей для стилизации своих компонентов. Это
+это означает, что стиль, который вы видите в демонстрационном приложении, формируется из
+внутренних таблиц стилей, которые находятся в папке `src/stylesheets. Если вы захотите
+отключить эту внутреннюю таблицу стилей, поскольку ваше приложение использует свою собственную,
+просто вызовите функцию настройки таблицы стилей с пустой строкой.
 
 ```c++
 DockManager->setStyleSheet("");
