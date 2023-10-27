@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import QAction, QMenu, QInputDialog, QLineEdit
 from PyQt5.QtCore import QSettings
 
-import PyQtAds as QtAds
+from PyQtAds import ads as QtAds
+
 
 CHILD_PREFIX = "Child-"
 

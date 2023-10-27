@@ -4,7 +4,8 @@ import atexit
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
 from PyQt5.QtCore import Qt
-import PyQtAds as QtAds
+from PyQtAds import ads as QtAds
+
 
 from perspectives import PerspectivesManager
 from dockindock import DockInDockWidget

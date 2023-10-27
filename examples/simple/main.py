@@ -6,7 +6,8 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QCloseEvent
 from PyQt5.QtWidgets import QApplication, QLabel
 
-import PyQtAds as QtAds
+from PyQtAds import ads as QtAds
+
 
 UI_FILE = os.path.join(os.path.dirname(__file__), 'MainWindow.ui')
 MainWindowUI, MainWindowBase = uic.loadUiType(UI_FILE)

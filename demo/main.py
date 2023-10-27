@@ -22,9 +22,10 @@ except ImportError:
 else:
     ACTIVEX_AVAILABLE = True
 
-from PyQtAds import QtAds
+from PyQtAds import ads as QtAds
 
-import rc  # pyrcc5 demo.qrc -o rc.py
+
+import demo_rc  # pyrcc5 C:\Users\ayazi\git_repos\job\ADS\demo\demo.qrc -o C:\Users\ayazi\git_repos\job\ADS\demo\demo_rc.py
 from status_dialog import CStatusDialog
 
 UI_FILE = os.path.join(os.path.dirname(__file__), 'mainwindow.ui')
